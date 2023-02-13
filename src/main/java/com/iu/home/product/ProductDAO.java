@@ -14,7 +14,7 @@ public class ProductDAO {
 	public Long getProductNum() throws Exception{
 		Connection con = DBConnection.getConnection1();
 		
-		String sql = "SELECT MAX(PRODUCT_NUM) FROM PRODUCTOPTION";
+		String sql = "SELECT PRODUCT_SEQ.NEXTVAL FROM DUAL";
 		
 		PreparedStatement st = con.prepareStatement(sql);
 		
@@ -46,9 +46,9 @@ public class ProductDAO {
 			ProductOptionDTO dto = new ProductOptionDTO();
 			dto.setOptionNum(rs.getLong("OPTION_NUM"));
 			dto.setProductNum(rs.getLong("PRODUCT_NUM"));
-			dto.setOptionDetail(rs.getString("OPTION_DETAIL"));
+			dto.setOptionName(rs.getString("OPTION_Name"));
 			dto.setOptionPrice(rs.getLong("OPTION_PRICE"));
-			dto.setOptionInventory(rs.getLong("OPTION_INVENTORY"));
+			dto.setOptionAmount(rs.getLong("OPTION_Amount"));
 			
 			ar.add(dto);
 			
@@ -58,7 +58,7 @@ public class ProductDAO {
 	
 	
 	
-	public int setProdcutOption(ProductOptionDTO dto) throws Exception{
+	public int setAddProdcutOption(ProductOptionDTO dto) throws Exception{
 		Connection con = DBConnection.getConnection1();
 		
 		String sql = "INSERT INTO PRODUCTOPTION VALUES(PRODUCT_OPTION_SEQ.NEXTVAL,?,?,?,?)";
@@ -66,9 +66,9 @@ public class ProductDAO {
 		PreparedStatement st = con.prepareStatement(sql);
 		
 		st.setLong(1, dto.getProductNum());
-		st.setString(2, dto.getOptionDetail());
+		st.setString(2, dto.getOptionName());
 		st.setLong(3, dto.getOptionPrice());
-		st.setLong(4, dto.getOptionInventory());
+		st.setLong(4, dto.getOptionAmount());
 		
 		int result = st.executeUpdate();
 		
@@ -107,7 +107,7 @@ public class ProductDAO {
 	}
 	
 	
-	public int setProduct(ProductDTO productDTO) throws Exception{
+	public int setAddProduct(ProductDTO productDTO) throws Exception{
 		Connection con = DBConnection.getConnection1();
 		
 		String sql = "INSERT INTO PRODUCT(PRODUCT_NUM, PRODUCT_NAME, PRODUCT_DETAIL, PRODUCT_JUMSU) VALUES(?,?,?,?)";
